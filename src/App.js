@@ -1,23 +1,49 @@
+import React, {useState, useEffect} from 'react'
 import logo from './logo.svg';
-import './App.css';
+import Input from './components/Input';
+import Output from './components/Output'
 
 function App() {
+
+  const [string, setString] = useState({
+    string:''
+  })
+
+  const [reverseString, setReverseString] = useState('')
+
+  const handleChange = (e) => {
+    e.preventDefault();
+    setString(
+        {
+            ...string,
+            [e.target.name]: e.target.value
+        }
+    )
+}
+
+const revString = (str) => {
+
+  var splitString = str.split("")
+  var reverseArray = splitString.reverse(); 
+  var joinArray = reverseArray.join(""); 
+  setReverseString(joinArray)
+}
+
+useEffect(() => {
+  revString(string.string);
+}, [string])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className=''>
+      <Input 
+      handleChange={handleChange}
+      />
+      <div className="container-fluid" style={{height:"95vh", display: 'flex', alignItems: 'center'}}>
+        <Output 
+        reverseString={reverseString}
+        />
+      </div>
+
     </div>
   );
 }
